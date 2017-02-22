@@ -65,39 +65,6 @@ spec:
         ports:
         - containerPort: 80
 ---
-kind: Deployment
-apiVersion: extensions/v1beta1
-metadata:
-  name: wensleydale
-  labels:
-    app: cheese
-    cheese: wensleydale
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: cheese
-      task: wensleydale
-  template:
-    metadata:
-      labels:
-        app: cheese
-        task: wensleydale
-        version: v0.0.1
-    spec:
-      containers:
-      - name: cheese
-        image: errm/cheese:wensleydale
-        resources:
-          requests:
-            cpu: 100m
-            memory: 50Mi
-          limits:
-            cpu: 100m
-            memory: 50Mi
-        ports:
-        - containerPort: 80
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -124,43 +91,23 @@ spec:
     app: cheese
     task: cheddar
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: wensleydale
-spec:
-  ports:
-  - name: http
-    targetPort: 80
-    port: 80
-  selector:
-    app: cheese
-    task: wensleydale
----
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: cheese
 spec:
   rules:
-  - host: stilton.domain_name
+  - host: stilton.uservice.se
     http:
       paths:
       - path: /
         backend:
           serviceName: stilton
           servicePort: http
-  - host: cheddar.domain_name
+  - host: cheddar.uservice.se
     http:
       paths:
       - path: /
         backend:
           serviceName: cheddar
-          servicePort: http
-  - host: wensleydale.domain_name
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: wensleydale
           servicePort: http
