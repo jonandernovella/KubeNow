@@ -15,4 +15,4 @@
 - hosts: edge
   gather_facts: False
   roles:
-    - { role: cloudflare, tags: [ 'cloudflare' ] }
+   - { role: cloudflare, tags: [ 'cloudflare' ] }
